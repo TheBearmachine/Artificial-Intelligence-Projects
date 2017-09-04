@@ -1,3 +1,10 @@
-﻿  Main.cpp
-  Artificial Intelligence Projects.vcxproj -> c:\users\bear\documents\visual studio 2015\Projects\Artificial Intelligence Projects\Debug\Artificial Intelligence Projects.exe
-  Artificial Intelligence Projects.vcxproj -> c:\users\bear\documents\visual studio 2015\Projects\Artificial Intelligence Projects\Debug\Artificial Intelligence Projects.pdb (Partial PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Artificial Intelligence Projects.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  TilemapProgram.cpp
+  Tile.cpp
+  Entity.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Tilemap.cpp
+  Main.cpp
+  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.exe
+  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)

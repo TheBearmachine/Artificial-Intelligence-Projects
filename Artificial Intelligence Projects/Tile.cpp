@@ -2,21 +2,61 @@
 
 Tile::Tile()
 {
+
 }
 
 Tile::~Tile()
 {
+
 }
 
-void Tile::setCosts(int * costs)
+void Tile::setNeighbor(Tile * neighbor, int index)
 {
-	for (int i = 0; i < MOVEMENT_TYPES_NR; i++)
-	{
-		mMovementCost[i] = costs[i];
-	}
+	if (index > 3 || index < 0) return;
+	mNeighborNodes[index] = neighbor;
 }
 
-int Tile::getCost(MovementTypes movementType) const
+Tile ** Tile::getNeighbors()
 {
-	return mMovementCost[(int)movementType];
+	return mNeighborNodes;
+}
+
+void Tile::setTreeParent(Tile * parent)
+{
+	mTreeParent = parent;
+}
+
+Tile * Tile::getTreeParent()
+{
+	return mTreeParent;
+}
+
+Tile::TileTypes Tile::getTileType() const
+{
+	return mTileType;
+}
+
+void Tile::setTileType(TileTypes tileType)
+{
+	mTileType = tileType;
+}
+
+void Tile::setAssociatedVertex(unsigned int vertex)
+{
+	mAssociatedVertex = vertex;
+}
+
+unsigned int Tile::getAssociatedVertex() const
+{
+	return mAssociatedVertex;
+}
+
+void Tile::setTileIndex(sf::Vector2u & index)
+{
+	mTileIndex = index;
+}
+
+sf::Vector2u Tile::getTileIndex() const
+{
+	return mTileIndex;
 }
