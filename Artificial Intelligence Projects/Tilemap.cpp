@@ -1,6 +1,7 @@
 #include "Tilemap.h"
 #include "Tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <queue>
 #include <vector>
 
 Tilemap::Tilemap() :
@@ -107,16 +108,46 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 	return true;
 }
 
+bool containsElement(const std::vector<std::pair<Tile*, unsigned int>> &vector, Tile* element)
+{
+	for (size_t i = 0; i < vector.size(); i++)
+	{
+		if (vector[i].first == element)
+			return true;
+	}
+	return false;
+}
+
 void Tilemap::calculatePaths(const sf::Vector2f &startPos, int travelLength, int* tileCosts)
 {
-	Tile* startTile;
-	std::vector<Tile*> closedList;
-	std::vector<Tile*> openList;
+	std::pair<Tile*, unsigned int> currentTile;
+	std::vector<std::pair< Tile*, unsigned int>> closedList;
+	std::vector<std::pair< Tile*, unsigned int>> openList;
 	unsigned int index = getIndexFromVector(startPos);
-	startTile = mTiles[index];
+	currentTile.first = mTiles[index];
+	currentTile.second = 0;
+	Tile* tileNeighbors[4];
+	openList.push_back(currentTile);
 	while (!openList.empty())
 	{
-
+		auto currentTile = openList.back();
+		openList.pop_back();
+		closedList.push_back(currentTile);
+		// Expand all neighboring tiles
+		for (int i = 0; i < 4; i++)
+		{
+			tileNeighbors[i] = currentTile.first->getNeighbors()[i];
+			if (tileNeighbors[i] != nullptr &&
+				!containsElement(closedList, tileNeighbors[i]) &&
+				!containsElement(openList, tileNeighbors[i]))
+			{
+				unsigned int newCost = tileCosts[tileNeighbors[i]->getTileType() + currentTile.second];
+				std::pair<Tile*, unsigned int> newTile = std::make_pair(tileNeighbors[i], newCost);
+				if (newCost <= travelLength)
+					openList.push_back(newTile);
+			}
+		}
+		//.pop
 	}
 }
 
