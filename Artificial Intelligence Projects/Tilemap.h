@@ -22,10 +22,14 @@ public:
 	void calculatePaths(const sf::Vector2f &startPos, int travelLength, int* tileCosts);
 
 private:
+	unsigned int getIndexFromVector(const sf::Vector2f &pos);
+
 	sf::VertexArray mVertices;
 	sf::Texture mTileset;
 	Tile** mTiles;
 
 	unsigned int mNrTilesX;
 	unsigned int mNrTilesY;
+	unsigned int mTileWidth;
+	unsigned int mTileHeight;
 };

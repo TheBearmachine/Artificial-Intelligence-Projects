@@ -1,10 +1,21 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Artificial Intelligence Projects.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   TilemapProgram.cpp
+  Tilemap.cpp
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(78): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(79): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(80): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(81): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(84): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(85): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(86): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(87): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(112): warning C4101: 'startTile': unreferenced local variable
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(128): warning C4244: 'initializing': conversion from 'float' to 'unsigned int', possible loss of data
   Tile.cpp
   Entity.cpp
   Generating Code...
-  Skipping... (no relevant changes detected)
-  Tilemap.cpp
+  Compiling...
   Main.cpp
+  Generating Code...
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.exe
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)

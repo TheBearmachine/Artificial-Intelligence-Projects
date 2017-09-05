@@ -47,10 +47,12 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 
 	mVertices.setPrimitiveType(sf::Quads);
 	mVertices.resize(width * height * 4);
-	unsigned int halfTileWidth = tileSize.x / 2;
-	unsigned int halfTileHeight = tileSize.y / 2;
+	//unsigned int halfTileWidth = tileSize.x / 2;
+	//unsigned int halfTileHeight = tileSize.y / 2;
 	mNrTilesX = width;
 	mNrTilesY = height;
+	mTileWidth = tileSize.x;
+	mTileHeight = tileSize.y;
 
 	for (unsigned int i = 0; i < width; ++i)
 	{
@@ -110,8 +112,19 @@ void Tilemap::calculatePaths(const sf::Vector2f &startPos, int travelLength, int
 	Tile* startTile;
 	std::vector<Tile*> closedList;
 	std::vector<Tile*> openList;
+	unsigned int index = getIndexFromVector(startPos);
+	startTile = mTiles[index];
 	while (!openList.empty())
 	{
 
 	}
+}
+
+unsigned int Tilemap::getIndexFromVector(const sf::Vector2f & pos)
+{
+	sf::Vector2f newPos = pos;
+	newPos.x /= mTileWidth;
+	newPos.y /= mTileHeight;
+	unsigned int index = newPos.x + newPos.y * mNrTilesX;
+	return index;
 }
