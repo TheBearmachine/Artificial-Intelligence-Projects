@@ -31,6 +31,16 @@ Tile * Tile::getTreeParent()
 	return mTreeParent;
 }
 
+void Tile::setAccumulatedCost(unsigned int cost)
+{
+	mAccumulatedCost = cost;
+}
+
+unsigned int Tile::getAccumulatedCost() const
+{
+	return mAccumulatedCost;
+}
+
 Tile::TileTypes Tile::getTileType() const
 {
 	return mTileType;

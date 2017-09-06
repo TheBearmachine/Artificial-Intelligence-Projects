@@ -36,7 +36,7 @@ void TimemapProgram::run()
 	mEntities[0].setPosition(64 * 3, 64 * 5);
 	mEntities[0].setTexture(WAGON_TEXTUREFILE);
 	int wagonCosts[] = { 3, 6, 5, 1000, 1, 1 };
-	int wagonTravelLength = 15;
+	int wagonTravelLength = 8;
 	mEntities[0].setMovementCosts(wagonCosts);
 	mEntities[0].setTravelLength(wagonTravelLength);
 
@@ -61,12 +61,20 @@ void TimemapProgram::run()
 						if (mEntities[i].getRect().contains(relativeMousePos))
 						{
 							mSelectedEntity = &mEntities[i];
-							// Calculate avalable paths by adding all nodes with a travelcost
+							// Calculate available paths by adding all nodes with a travelcost
 							mTilemap.calculatePaths(mSelectedEntity->getPosition(), mSelectedEntity->getTravelLength(), mSelectedEntity->getMovementCosts());
 							printf("Selected entity %i\n", i);
 							break;
 						}
 					}
+				}
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Escape && mSelectedEntity != nullptr)
+				{
+					mTilemap.clearPaths();
+					mSelectedEntity = nullptr;
 				}
 			}
 		}
@@ -80,7 +88,7 @@ void TimemapProgram::run()
 
 void TimemapProgram::update(sf::Time & deltaTime)
 {
-
+	mTilemap.update(deltaTime);
 }
 
 void TimemapProgram::draw(sf::RenderWindow & window)

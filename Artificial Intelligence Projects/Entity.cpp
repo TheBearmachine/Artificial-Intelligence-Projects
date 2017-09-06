@@ -3,7 +3,9 @@
 
 static const char* DEFAULT_TEXTURE = "DefaultImage.png";
 
-Entity::Entity()
+Entity::Entity() :
+	mCosts{ 1, 1, 1, 1, 1, 1 },
+	mTravelLength(10)
 {
 	mTexture.loadFromFile(DEFAULT_TEXTURE);
 	mSprite.setTexture(mTexture);

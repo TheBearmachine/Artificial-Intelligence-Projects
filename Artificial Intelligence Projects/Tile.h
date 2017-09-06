@@ -4,6 +4,7 @@
 class Tile
 {
 public:
+	friend class CompareTileCosts;
 
 	static const int TILE_TYPES_NR = 6;
 	enum TileTypes
@@ -26,8 +27,11 @@ public:
 	void setTreeParent(Tile* parent);
 	Tile* getTreeParent();
 
-	TileTypes getTileType() const;
+	void setAccumulatedCost(unsigned int cost);
+	unsigned int getAccumulatedCost() const;
+
 	void setTileType(TileTypes tileType);
+	TileTypes getTileType() const;
 
 	void setAssociatedVertex(unsigned int vertex);
 	unsigned int getAssociatedVertex() const;
@@ -35,10 +39,20 @@ public:
 	void setTileIndex(sf::Vector2u &index);
 	sf::Vector2u getTileIndex() const;
 
+
 private:
 	Tile* mNeighborNodes[4];
 	Tile* mTreeParent;
+	unsigned int mAccumulatedCost;
 	TileTypes mTileType;
 	unsigned int mAssociatedVertex;
 	sf::Vector2u mTileIndex;
+};
+
+struct CompareTileCosts
+{
+	bool operator()(const Tile *t1, const Tile *t2)
+	{
+		return t1->mAccumulatedCost > t2->mAccumulatedCost;
+	}
 };

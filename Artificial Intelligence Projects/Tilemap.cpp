@@ -2,7 +2,7 @@
 #include "Tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <queue>
-#include <vector>
+#include <functional>
 
 Tilemap::Tilemap() :
 	mNrTilesX(0), mNrTilesY(0)
@@ -24,7 +24,18 @@ void Tilemap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void Tilemap::update(sf::Time & deltaTime)
 {
+	if (!mAvaliableMoves.empty())
+	{
+		mMovesTimer += deltaTime.asSeconds();
+		float offset = std::sinf(mMovesTimer*5.f)*15.f;
+		for (int i = 0; i < mAvaliableMoves.size(); i++)
+		{
+			for (int j = 0; j < 4; j++)
+				mVertices[mAvaliableMoves[i]->getAssociatedVertex() + j].color
+				= sf::Color(128 + (int)offset, 128 + (int)offset, 128 + (int)offset);
 
+		}
+	}
 }
 
 bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int * tiles, unsigned int width, unsigned int height)
@@ -48,8 +59,6 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 
 	mVertices.setPrimitiveType(sf::Quads);
 	mVertices.resize(width * height * 4);
-	//unsigned int halfTileWidth = tileSize.x / 2;
-	//unsigned int halfTileHeight = tileSize.y / 2;
 	mNrTilesX = width;
 	mNrTilesY = height;
 	mTileWidth = tileSize.x;
@@ -67,6 +76,7 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 			int tileNumber = tiles[index];
 			newTile->setTileType((Tile::TileTypes)tileNumber);
 			newTile->setTileIndex(sf::Vector2u(i, j));
+			newTile->setAssociatedVertex(index * 4);
 
 			// find its position in the tileset texture
 			int tu = tileNumber % (mTileset.getSize().x / tileSize.x);
@@ -96,7 +106,7 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 		{
 			unsigned int index = i + j * width;
 
-			// Assign neighbors to each tile, except for tiles on the edge of the screen
+			// Assign neighbors to each tile, with exceptions for tiles on the edge of the screen
 			mTiles[index]->setNeighbor(j == 0 ? nullptr : mTiles[index - width], 0);
 			mTiles[index]->setNeighbor(i == width ? nullptr : mTiles[index + 1], 1);
 			mTiles[index]->setNeighbor(j == height ? nullptr : mTiles[index + width], 2);
@@ -108,11 +118,22 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 	return true;
 }
 
-bool containsElement(const std::vector<std::pair<Tile*, unsigned int>> &vector, Tile* element)
+bool containsElement(std::priority_queue<Tile*, std::vector<Tile*>, CompareTileCosts> queue, Tile* element)
+{
+	while (!queue.empty())
+	{
+		Tile* temp = queue.top();
+		if (temp == element) return true;
+		queue.pop();
+	}
+	return false;
+}
+
+bool containsElement(const std::vector<Tile*> &vector, Tile* element)
 {
 	for (size_t i = 0; i < vector.size(); i++)
 	{
-		if (vector[i].first == element)
+		if (vector[i] == element)
 			return true;
 	}
 	return false;
@@ -120,34 +141,60 @@ bool containsElement(const std::vector<std::pair<Tile*, unsigned int>> &vector, 
 
 void Tilemap::calculatePaths(const sf::Vector2f &startPos, int travelLength, int* tileCosts)
 {
-	std::pair<Tile*, unsigned int> currentTile;
-	std::vector<std::pair< Tile*, unsigned int>> closedList;
-	std::vector<std::pair< Tile*, unsigned int>> openList;
+	Tile* startTile;
+	std::priority_queue<Tile*, std::vector<Tile*>, CompareTileCosts> openList;
+	std::vector<Tile*> closedList;
+	//std::vector<Tile*> openList;
 	unsigned int index = getIndexFromVector(startPos);
-	currentTile.first = mTiles[index];
-	currentTile.second = 0;
+	startTile = mTiles[index];
+	startTile->setAccumulatedCost(0);
 	Tile* tileNeighbors[4];
-	openList.push_back(currentTile);
+	openList.push(startTile);
 	while (!openList.empty())
 	{
-		auto currentTile = openList.back();
-		openList.pop_back();
+		auto currentTile = openList.top();
+		openList.pop();
 		closedList.push_back(currentTile);
+
 		// Expand all neighboring tiles
 		for (int i = 0; i < 4; i++)
 		{
-			tileNeighbors[i] = currentTile.first->getNeighbors()[i];
+			tileNeighbors[i] = currentTile->getNeighbors()[i];
 			if (tileNeighbors[i] != nullptr &&
 				!containsElement(closedList, tileNeighbors[i]) &&
 				!containsElement(openList, tileNeighbors[i]))
 			{
-				unsigned int newCost = tileCosts[tileNeighbors[i]->getTileType() + currentTile.second];
-				std::pair<Tile*, unsigned int> newTile = std::make_pair(tileNeighbors[i], newCost);
+				unsigned int newCost = tileCosts[tileNeighbors[i]->getTileType()] + currentTile->getAccumulatedCost();
+				Tile* newTile = tileNeighbors[i];
 				if (newCost <= travelLength)
-					openList.push_back(newTile);
+				{
+					newTile->setAccumulatedCost(newCost);
+					newTile->setTreeParent(currentTile);
+					openList.push(newTile);
+				}
 			}
 		}
-		//.pop
+		printf("Open list current size: %i\n", openList.size());
+	}
+	printf("Closed list size: %i\n", closedList.size());
+	mAvaliableMoves = closedList;
+	mMovesTimer = 0.f;
+	// Temporary recoloring of avaliable moves
+
+}
+
+void Tilemap::clearPaths()
+{
+	if (!mAvaliableMoves.empty())
+	{
+		for (int i = 0; i < mAvaliableMoves.size(); i++)
+		{
+			for (int j = 0; j < 4; j++)
+				mVertices[mAvaliableMoves[i]->getAssociatedVertex() + j].color
+				= sf::Color(255, 255, 255);
+
+		}
+		mAvaliableMoves.clear();
 	}
 }
 
