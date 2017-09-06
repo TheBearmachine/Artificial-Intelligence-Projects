@@ -5,7 +5,7 @@
 #include <functional>
 
 Tilemap::Tilemap() :
-	mNrTilesX(0), mNrTilesY(0)
+	mNrTilesX(0), mNrTilesY(0), mLastCheckedIndex(100000)
 {
 
 }
@@ -114,7 +114,6 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 			mTiles[index]->setTreeParent(nullptr);
 		}
 	}
-
 	return true;
 }
 
@@ -139,7 +138,7 @@ bool containsElement(const std::vector<Tile*> &vector, Tile* element)
 	return false;
 }
 
-void Tilemap::calculatePaths(const sf::Vector2f &startPos, int travelLength, int* tileCosts)
+void Tilemap::calculateAvailableMoves(const sf::Vector2f &startPos, int travelLength, int* tileCosts)
 {
 	Tile* startTile;
 	std::priority_queue<Tile*, std::vector<Tile*>, CompareTileCosts> openList;
@@ -198,11 +197,29 @@ void Tilemap::clearPaths()
 	}
 }
 
+void Tilemap::calculatePath(const sf::Vector2f & point)
+{
+	unsigned int index = getIndexFromVector(point);
+	if (mAvaliableMoves.empty() || index == mLastCheckedIndex) return;
+	mLastCheckedIndex = index;
+	if (containsElement(mAvaliableMoves, mTiles[index]))
+	{
+		std::vector<Tile*> path;
+		Tile* currentTile = mTiles[index];
+		while (currentTile->getTreeParent() != nullptr)
+		{
+			path.push_back(currentTile);
+			currentTile = currentTile->getTreeParent();
+		}
+		printf("Path length: %i\n", path.size());
+	}
+}
+
 unsigned int Tilemap::getIndexFromVector(const sf::Vector2f & pos)
 {
 	sf::Vector2f newPos = pos;
 	newPos.x /= mTileWidth;
 	newPos.y /= mTileHeight;
-	unsigned int index = newPos.x + newPos.y * mNrTilesX;
+	unsigned int index = (int)newPos.x + (int)newPos.y * mNrTilesX;
 	return index;
 }

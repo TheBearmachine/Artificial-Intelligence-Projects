@@ -62,7 +62,7 @@ void TimemapProgram::run()
 						{
 							mSelectedEntity = &mEntities[i];
 							// Calculate available paths by adding all nodes with a travelcost
-							mTilemap.calculatePaths(mSelectedEntity->getPosition(), mSelectedEntity->getTravelLength(), mSelectedEntity->getMovementCosts());
+							mTilemap.calculateAvailableMoves(mSelectedEntity->getPosition(), mSelectedEntity->getTravelLength(), mSelectedEntity->getMovementCosts());
 							printf("Selected entity %i\n", i);
 							break;
 						}
@@ -76,6 +76,13 @@ void TimemapProgram::run()
 					mTilemap.clearPaths();
 					mSelectedEntity = nullptr;
 				}
+			}
+			if (event.type == sf::Event::MouseMoved && mSelectedEntity != nullptr)
+			{
+				sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
+				sf::Vector2i relativeMousePos(window.mapPixelToCoords(mousePos));
+
+				mTilemap.calculatePath(sf::Vector2f((float)relativeMousePos.x, (float)relativeMousePos.y));
 			}
 		}
 

@@ -20,8 +20,9 @@ public:
 
 	bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
 
-	void calculatePaths(const sf::Vector2f &startPos, int travelLength, int* tileCosts);
+	void calculateAvailableMoves(const sf::Vector2f &startPos, int travelLength, int* tileCosts);
 	void clearPaths();
+	void calculatePath(const sf::Vector2f &point);
 
 private:
 	unsigned int getIndexFromVector(const sf::Vector2f &pos);
@@ -30,6 +31,7 @@ private:
 	sf::Texture mTileset;
 	Tile** mTiles;
 	std::vector<Tile*> mAvaliableMoves;
+	unsigned int mLastCheckedIndex;
 	float mMovesTimer;
 
 	unsigned int mNrTilesX;
