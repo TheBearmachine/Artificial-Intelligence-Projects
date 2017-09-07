@@ -5,7 +5,7 @@ static const char* DEFAULT_TEXTURE = "DefaultImage.png";
 
 Entity::Entity() :
 	mCosts{ 1, 1, 1, 1, 1, 1 },
-	mTravelLength(10)
+	mTravelLength(4)
 {
 	mTexture.loadFromFile(DEFAULT_TEXTURE);
 	mSprite.setTexture(mTexture);
@@ -24,6 +24,10 @@ void Entity::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	target.draw(mSprite, states);
+}
+
+void Entity::update(sf::Time & deltaTime)
+{
 }
 
 sf::IntRect Entity::getRect()

@@ -6,6 +6,9 @@
 
 static const char* TILEMAP_TEXTUREFILE = "FancyTiles.png";
 static const char* WAGON_TEXTUREFILE = "Wagon.png";
+static const char* BOAT_TEXTUREFILE = "Boat.png";
+static const char* HUMAN_TEXTUREFILE = "Human.png";
+static const char* GOAT_TEXTUREFILE = "Goat.png";
 
 TimemapProgram::TimemapProgram()
 {
@@ -13,6 +16,14 @@ TimemapProgram::TimemapProgram()
 
 TimemapProgram::~TimemapProgram()
 {
+}
+
+void setupEntity(Entity& entity, const char* textureFile, const sf::Vector2i &tilePos, int* movementCosts, int travelLength)
+{
+	entity.setTexture(textureFile);
+	entity.setPosition((float)tilePos.x * 64.f, (float)tilePos.y * 64.f);
+	entity.setMovementCosts(movementCosts);
+	entity.setTravelLength(travelLength);
 }
 
 void TimemapProgram::run()
@@ -33,14 +44,22 @@ void TimemapProgram::run()
 	mTilemap.load(TILEMAP_TEXTUREFILE, sf::Vector2u(64, 64), LEVEL, 10, 10);
 
 	// Setup wagon attributes
-	mEntities[0].setPosition(64 * 3, 64 * 5);
-	mEntities[0].setTexture(WAGON_TEXTUREFILE);
-	int wagonCosts[] = { 3, 6, 5, 1000, 1, 1 };
-	int wagonTravelLength = 8;
-	mEntities[0].setMovementCosts(wagonCosts);
-	mEntities[0].setTravelLength(wagonTravelLength);
+	int wagonCosts[] = { 3, 6, 5, 1000, 2, 1 };
+	int travelLength = 8;
+	setupEntity(mEntities[0], WAGON_TEXTUREFILE, sf::Vector2i(3, 5), wagonCosts, travelLength);
+	// Setup boat attributes
+	int boatCosts[] = { 1000, 1000, 1, 1, 1000, 1000 };
+	travelLength = 6;
+	setupEntity(mEntities[1], BOAT_TEXTUREFILE, sf::Vector2i(1, 8), boatCosts, travelLength);
+	// Setup human attributes
+	int humanCosts[] = { 2, 3, 2, 3, 1, 1 };
+	travelLength = 6;
+	setupEntity(mEntities[2], HUMAN_TEXTUREFILE, sf::Vector2i(6, 6), humanCosts, travelLength);
+	// Setup goat attributes
+	int goatCosts[] = { 2, 2, 3, 1000, 1, 2 };
+	travelLength = 8;
+	setupEntity(mEntities[3], GOAT_TEXTUREFILE, sf::Vector2i(2, 2), goatCosts, travelLength);
 
-	// Setup x attributes
 
 	while (window.isOpen())
 	{
@@ -73,7 +92,7 @@ void TimemapProgram::run()
 			{
 				if (event.key.code == sf::Keyboard::Escape && mSelectedEntity != nullptr)
 				{
-					mTilemap.clearPaths();
+					mTilemap.clearMoves();
 					mSelectedEntity = nullptr;
 				}
 			}

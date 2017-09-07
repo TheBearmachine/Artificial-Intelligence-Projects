@@ -1,13 +1,18 @@
+#define _USE_MATH_DEFINES
 #include "Tilemap.h"
 #include "Tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <queue>
+#include <math.h>
 #include <functional>
+
+
+static const int ARROW_LINE_THICKNESS = 5;
 
 Tilemap::Tilemap() :
 	mNrTilesX(0), mNrTilesY(0), mLastCheckedIndex(100000)
 {
-
+	mArrowShape.setPrimitiveType(sf::PrimitiveType::Quads);
 }
 
 Tilemap::~Tilemap()
@@ -20,6 +25,8 @@ void Tilemap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	states.transform *= getTransform();
 	states.texture = &mTileset;
 	target.draw(mVertices, states);
+	states.texture = &mArrowTexture;
+	target.draw(mArrowShape, states);
 }
 
 void Tilemap::update(sf::Time & deltaTime)
@@ -105,11 +112,12 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 		for (unsigned int j = 0; j < height; ++j)
 		{
 			unsigned int index = i + j * width;
+			Tile* tileTest = mTiles[index];
 
 			// Assign neighbors to each tile, with exceptions for tiles on the edge of the screen
 			mTiles[index]->setNeighbor(j == 0 ? nullptr : mTiles[index - width], 0);
-			mTiles[index]->setNeighbor(i == width ? nullptr : mTiles[index + 1], 1);
-			mTiles[index]->setNeighbor(j == height ? nullptr : mTiles[index + width], 2);
+			mTiles[index]->setNeighbor(i == (width - 1) ? nullptr : mTiles[index + 1], 1);
+			mTiles[index]->setNeighbor(j == (height - 1) ? nullptr : mTiles[index + width], 2);
 			mTiles[index]->setNeighbor(i == 0 ? nullptr : mTiles[index - 1], 3);
 			mTiles[index]->setTreeParent(nullptr);
 		}
@@ -178,11 +186,9 @@ void Tilemap::calculateAvailableMoves(const sf::Vector2f &startPos, int travelLe
 	printf("Closed list size: %i\n", closedList.size());
 	mAvaliableMoves = closedList;
 	mMovesTimer = 0.f;
-	// Temporary recoloring of avaliable moves
-
 }
 
-void Tilemap::clearPaths()
+void Tilemap::clearMoves()
 {
 	if (!mAvaliableMoves.empty())
 	{
@@ -191,27 +197,70 @@ void Tilemap::clearPaths()
 			for (int j = 0; j < 4; j++)
 				mVertices[mAvaliableMoves[i]->getAssociatedVertex() + j].color
 				= sf::Color(255, 255, 255);
-
+			mAvaliableMoves[i]->setTreeParent(nullptr);
+			mAvaliableMoves[i]->setAccumulatedCost(0);
 		}
 		mAvaliableMoves.clear();
+		mPathPoints.clear();
+		mArrowShape.resize(0);
 	}
 }
 
-void Tilemap::calculatePath(const sf::Vector2f & point)
+template <typename T>
+void reverseVectorOrder(std::vector<T> &vector)
+{
+	auto tempVector = vector;
+	vector.clear();
+	while (!tempVector.empty())
+	{
+		vector.push_back(tempVector.back());
+		tempVector.pop_back();
+	}
+}
+
+void rotationMatrix(sf::Vector2f &vector, float degrees)
+{
+	degrees = (degrees * M_PI) / 180.f;
+	sf::Vector2f tempVec = sf::Vector2f(vector);
+	vector.x = tempVec.x * cosf(degrees) - tempVec.y * sinf(degrees);
+	vector.y = tempVec.x * sinf(degrees) + tempVec.y * cosf(degrees);
+}
+
+void Tilemap::calculatePath(const sf::Vector2f &point)
 {
 	unsigned int index = getIndexFromVector(point);
 	if (mAvaliableMoves.empty() || index == mLastCheckedIndex) return;
 	mLastCheckedIndex = index;
 	if (containsElement(mAvaliableMoves, mTiles[index]))
 	{
-		std::vector<Tile*> path;
+		mPathPoints.clear();
 		Tile* currentTile = mTiles[index];
 		while (currentTile->getTreeParent() != nullptr)
 		{
-			path.push_back(currentTile);
+			mPathPoints.push_back(currentTile->getTileIndex());
 			currentTile = currentTile->getTreeParent();
 		}
-		printf("Path length: %i\n", path.size());
+		mPathPoints.push_back(currentTile->getTileIndex());
+		reverseVectorOrder(mPathPoints);
+		printf("Path length: %i\n", mPathPoints.size());
+		mArrowShape.resize((mPathPoints.size() - 1) * 4);
+		for (size_t i = 0; i < mPathPoints.size() - 1; i++)
+		{
+			sf::Vector2f dir = sf::Vector2f(mPathPoints[i + 1]) - sf::Vector2f(mPathPoints[i]);
+			sf::Vector2f pos((float)mTileWidth*((float)mPathPoints[i].x + 0.5f),
+							 (float)mTileHeight*((float)mPathPoints[i].y + 0.5f));
+			rotationMatrix(dir, 135.f);
+			mArrowShape[i * 4].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+			rotationMatrix(dir, 90);
+			mArrowShape[i * 4 + 1].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+			pos = sf::Vector2f((float)mTileWidth*((float)mPathPoints[i + 1].x + 0.5f),
+							   (float)mTileHeight*((float)mPathPoints[i + 1].y + 0.5f));
+			rotationMatrix(dir, 90);
+			mArrowShape[i * 4 + 2].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+			rotationMatrix(dir, 90);
+			mArrowShape[i * 4 + 3].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+
+		}
 	}
 }
 
