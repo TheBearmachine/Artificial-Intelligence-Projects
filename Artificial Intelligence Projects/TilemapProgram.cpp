@@ -10,11 +10,12 @@ static const char* BOAT_TEXTUREFILE = "Boat.png";
 static const char* HUMAN_TEXTUREFILE = "Human.png";
 static const char* GOAT_TEXTUREFILE = "Goat.png";
 
-TimemapProgram::TimemapProgram()
+TilemapProgram::TilemapProgram() :
+	mEntityInTransit(false)
 {
 }
 
-TimemapProgram::~TimemapProgram()
+TilemapProgram::~TilemapProgram()
 {
 }
 
@@ -26,7 +27,7 @@ void setupEntity(Entity& entity, const char* textureFile, const sf::Vector2i &ti
 	entity.setTravelLength(travelLength);
 }
 
-void TimemapProgram::run()
+void TilemapProgram::run()
 {
 	sf::RenderWindow window(sf::VideoMode(640, 640), "Pathfinding AI");
 	sf::Clock clock;
@@ -69,7 +70,7 @@ void TimemapProgram::run()
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			if (event.type == sf::Event::MouseButtonPressed)
+			if (!mEntityInTransit && event.type == sf::Event::MouseButtonPressed)
 			{
 				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 				sf::Vector2i relativeMousePos(window.mapPixelToCoords(mousePos));
@@ -87,8 +88,18 @@ void TimemapProgram::run()
 						}
 					}
 				}
+				else
+				{
+					auto path = mTilemap.getCurrentPath(sf::Vector2f(relativeMousePos));
+					if (!path.empty())
+					{
+						mSelectedEntity->setMovementPath(path);
+						mSelectedEntity->setEntityListener(this);
+						mEntityInTransit = true;
+					}
+				}
 			}
-			if (event.type == sf::Event::KeyPressed)
+			if (!mEntityInTransit && event.type == sf::Event::KeyPressed)
 			{
 				if (event.key.code == sf::Keyboard::Escape && mSelectedEntity != nullptr)
 				{
@@ -96,7 +107,7 @@ void TimemapProgram::run()
 					mSelectedEntity = nullptr;
 				}
 			}
-			if (event.type == sf::Event::MouseMoved && mSelectedEntity != nullptr)
+			if (!mEntityInTransit && event.type == sf::Event::MouseMoved && mSelectedEntity != nullptr)
 			{
 				sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 				sf::Vector2i relativeMousePos(window.mapPixelToCoords(mousePos));
@@ -112,12 +123,16 @@ void TimemapProgram::run()
 	}
 }
 
-void TimemapProgram::update(sf::Time & deltaTime)
+void TilemapProgram::update(sf::Time & deltaTime)
 {
 	mTilemap.update(deltaTime);
+	for (int i = 0; i < 4; i++)
+	{
+		mEntities[i].update(deltaTime);
+	}
 }
 
-void TimemapProgram::draw(sf::RenderWindow & window)
+void TilemapProgram::draw(sf::RenderWindow & window)
 {
 	window.clear();
 	window.draw(mTilemap);
@@ -126,4 +141,11 @@ void TimemapProgram::draw(sf::RenderWindow & window)
 		window.draw(mEntities[i]);
 	}
 	window.display();
+}
+
+void TilemapProgram::destinationReached()
+{
+	mEntityInTransit = false;
+	mTilemap.clearMoves();
+	mSelectedEntity = nullptr;
 }

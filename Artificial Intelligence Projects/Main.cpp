@@ -2,7 +2,7 @@
 
 int main()
 {
-	TimemapProgram prog;
+	TilemapProgram prog;
 	prog.run();
 
 	return 0;

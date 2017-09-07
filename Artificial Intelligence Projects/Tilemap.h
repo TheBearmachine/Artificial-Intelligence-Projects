@@ -25,6 +25,8 @@ public:
 	void clearMoves();
 	void calculatePath(const sf::Vector2f &point);
 
+	std::vector<sf::Vector2f> getCurrentPath(const sf::Vector2f &mousePos);
+
 private:
 	unsigned int getIndexFromVector(const sf::Vector2f &pos);
 
@@ -37,7 +39,7 @@ private:
 
 	sf::VertexArray mArrowShape;
 	sf::Texture mArrowTexture;
-	std::vector<sf::Vector2u> mPathPoints;
+	std::vector<sf::Vector2f> mPathPoints;
 
 	unsigned int mNrTilesX;
 	unsigned int mNrTilesY;

@@ -237,31 +237,63 @@ void Tilemap::calculatePath(const sf::Vector2f &point)
 		Tile* currentTile = mTiles[index];
 		while (currentTile->getTreeParent() != nullptr)
 		{
-			mPathPoints.push_back(currentTile->getTileIndex());
+			mPathPoints.push_back(sf::Vector2f((float)currentTile->getTileIndex().x * (float)mTileWidth, (float)currentTile->getTileIndex().y * (float)mTileHeight));
 			currentTile = currentTile->getTreeParent();
 		}
-		mPathPoints.push_back(currentTile->getTileIndex());
+		mPathPoints.push_back(sf::Vector2f((float)currentTile->getTileIndex().x * (float)mTileWidth, (float)currentTile->getTileIndex().y * (float)mTileHeight));
 		reverseVectorOrder(mPathPoints);
-		printf("Path length: %i\n", mPathPoints.size());
-		mArrowShape.resize((mPathPoints.size() - 1) * 4);
-		for (size_t i = 0; i < mPathPoints.size() - 1; i++)
-		{
-			sf::Vector2f dir = sf::Vector2f(mPathPoints[i + 1]) - sf::Vector2f(mPathPoints[i]);
-			sf::Vector2f pos((float)mTileWidth*((float)mPathPoints[i].x + 0.5f),
-							 (float)mTileHeight*((float)mPathPoints[i].y + 0.5f));
-			rotationMatrix(dir, 135.f);
-			mArrowShape[i * 4].position = pos + dir * (float)ARROW_LINE_THICKNESS;
-			rotationMatrix(dir, 90);
-			mArrowShape[i * 4 + 1].position = pos + dir * (float)ARROW_LINE_THICKNESS;
-			pos = sf::Vector2f((float)mTileWidth*((float)mPathPoints[i + 1].x + 0.5f),
-							   (float)mTileHeight*((float)mPathPoints[i + 1].y + 0.5f));
-			rotationMatrix(dir, 90);
-			mArrowShape[i * 4 + 2].position = pos + dir * (float)ARROW_LINE_THICKNESS;
-			rotationMatrix(dir, 90);
-			mArrowShape[i * 4 + 3].position = pos + dir * (float)ARROW_LINE_THICKNESS;
 
+		// Draw a pretty arrow covering the optimal path to the requested tile
+		if (mPathPoints.size() <= 1)
+		{
+			mArrowShape.resize(0);
+			return;
+		}
+		mArrowShape.resize(mPathPoints.size() * 4);
+		for (size_t i = 0; i < mPathPoints.size(); i++)
+		{
+			sf::Vector2f dir;
+			sf::Vector2f pos(mPathPoints[i].x + 0.5f * (float)mTileWidth, mPathPoints[i].y + 0.5f * (float)mTileHeight);
+			if (i != mPathPoints.size() - 1)
+			{
+				dir = sf::Vector2f(mPathPoints[i + 1]) - sf::Vector2f(mPathPoints[i]);
+				dir.x /= mTileWidth;
+				dir.y /= mTileHeight;
+				rotationMatrix(dir, 135.f);
+				mArrowShape[i * 4].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+				rotationMatrix(dir, 90);
+				mArrowShape[i * 4 + 1].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+				pos = sf::Vector2f(mPathPoints[i + 1].x + 0.5f * (float)mTileWidth, mPathPoints[i + 1].y + 0.5f * (float)mTileHeight);
+				rotationMatrix(dir, 90);
+				mArrowShape[i * 4 + 2].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+				rotationMatrix(dir, 90);
+				mArrowShape[i * 4 + 3].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+			}
+			else
+			{
+				dir = sf::Vector2f(mPathPoints[i]) - sf::Vector2f(mPathPoints[i - 1]);
+				dir.x /= mTileWidth;
+				dir.y /= mTileHeight;
+				rotationMatrix(dir, 45.f);
+				mArrowShape[i * 4].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+				rotationMatrix(dir, 90.f);
+				mArrowShape[i * 4 + 1].position = pos + dir * (float)ARROW_LINE_THICKNESS * 5.f;
+				rotationMatrix(dir, 90.f);
+				mArrowShape[i * 4 + 2].position = pos + dir * (float)ARROW_LINE_THICKNESS * 5.f;
+				rotationMatrix(dir, 90.f);
+				mArrowShape[i * 4 + 3].position = pos + dir * (float)ARROW_LINE_THICKNESS;
+			}
 		}
 	}
+}
+
+std::vector<sf::Vector2f> Tilemap::getCurrentPath(const sf::Vector2f &mousePos)
+{
+	unsigned int index = getIndexFromVector(mousePos);
+	if (containsElement(mAvaliableMoves, mTiles[index]))
+		return mPathPoints;
+	else
+		return std::vector<sf::Vector2f>();
 }
 
 unsigned int Tilemap::getIndexFromVector(const sf::Vector2f & pos)
