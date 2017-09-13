@@ -15,7 +15,7 @@ private:
 	void update(sf::Time &deltaTime);
 	void draw(sf::RenderWindow& window);
 
-	void destinationReached();
+	virtual void destinationReached() override;
 
 	Tilemap mTilemap;
 	Entity mEntities[4];

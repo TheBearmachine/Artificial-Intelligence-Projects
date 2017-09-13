@@ -93,7 +93,7 @@ void TilemapProgram::run()
 					auto path = mTilemap.getCurrentPath(sf::Vector2f(relativeMousePos));
 					if (!path.empty())
 					{
-						mSelectedEntity->setMovementPath(path);
+						mSelectedEntity->setMovementPath(path, true);
 						mSelectedEntity->setEntityListener(this);
 						mEntityInTransit = true;
 					}

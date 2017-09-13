@@ -78,7 +78,7 @@ void Entity::update(sf::Time & deltaTime)
 	if (!mWaypoints.empty() && mTraveling)
 	{
 		bool reachedGoal;
-		auto newPos = lerp(getPosition(), mWaypoints.back(), deltaTime.asSeconds() * SPEED_FACTOR, reachedGoal);
+		auto newPos = lerp(getPosition(), mWaypoints.back(), mInstantTravel ? 10000.f : deltaTime.asSeconds() * SPEED_FACTOR, reachedGoal);
 		setPosition(newPos);
 		if (reachedGoal)
 		{
@@ -101,11 +101,12 @@ sf::IntRect Entity::getRect()
 	return rect;
 }
 
-void Entity::setMovementPath(const std::vector<sf::Vector2f>& path)
+void Entity::setMovementPath(const std::vector<sf::Vector2f>& path, bool instantTravel)
 {
 	mWaypoints = path;
 	reverseVectorOrder(mWaypoints);
 	mTraveling = true;
+	mInstantTravel = instantTravel;
 }
 
 void Entity::setMovementCosts(int * costs)

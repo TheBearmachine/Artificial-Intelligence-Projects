@@ -24,7 +24,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void update(sf::Time &deltaTime);
 	sf::IntRect getRect();
-	void setMovementPath(const std::vector<sf::Vector2f> &path);
+	void setMovementPath(const std::vector<sf::Vector2f> &path, bool instantTravel = false);
 
 	void setMovementCosts(int* costs);
 	int getMovementCost(Tile::TileTypes tileType) const;
@@ -40,5 +40,5 @@ private:
 	int mCosts[Tile::TILE_TYPES_NR];
 	int mTravelLength;
 	std::vector<sf::Vector2f> mWaypoints;
-	bool mTraveling;
+	bool mTraveling, mInstantTravel;
 };
