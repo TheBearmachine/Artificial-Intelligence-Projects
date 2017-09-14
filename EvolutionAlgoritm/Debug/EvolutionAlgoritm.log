@@ -1,0 +1,12 @@
+﻿  Resolve-Path : Cannot find path 'C:\Users\Bear\Documents\Visual Studio 2015\Pro
+  jects\Artificial Intelligence Projects\Debug\EvolutionAlgoritm.exe' because it 
+  does not exist.
+  At C:\Users\Bear\Downloads\vcpkg-master\vcpkg-master\scripts\buildsystems\msbui
+  ld\applocal.ps1:31 char:41
+  +         $targetBinaryPath = Resolve-Path <<<<  $targetBinary -erroraction sto
+  p
+      + CategoryInfo          : ObjectNotFound: (C:\Users\Bear\D...ionAlgoritm.e 
+     xe:String) [Resolve-Path], ItemNotFoundException
+      + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.Resol 
+     vePathCommand
+   

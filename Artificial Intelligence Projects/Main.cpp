@@ -1,8 +1,9 @@
 #include "TilemapProgram.h"
+#include "EvolutionProgram.h"
 
 int main()
 {
-	TilemapProgram prog;
+	EvolutionProgram prog;
 	prog.run();
 
 	return 0;
