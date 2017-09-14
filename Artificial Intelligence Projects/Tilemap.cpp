@@ -127,8 +127,9 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 
 void Tilemap::setTileTexture(sf::Vector2f worldPos, int textureIndex)
 {
-	if (textureIndex < 0 || textureIndex <= Tile::TILE_TYPES_NR) return;
+	if (textureIndex < 0 || textureIndex >= Tile::TILE_TYPES_NR) return;
 	auto index = getIndexFromVector(worldPos);
+	if (index >= mNrTilesX * mNrTilesY) return;
 	sf::Vertex* quad = &mVertices[index * 4];
 
 	int tu = textureIndex % (mTileset.getSize().x / mTileWidth);

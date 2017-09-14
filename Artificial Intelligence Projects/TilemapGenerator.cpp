@@ -31,7 +31,10 @@ void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY)
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::MouseButtonPressed)
+			if (event.type == sf::Event::Closed)
+				window.close();
+
+			else if (event.type == sf::Event::MouseButtonPressed)
 			{
 				// Start painting
 				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
@@ -47,7 +50,7 @@ void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY)
 			}
 			else if (event.type == sf::Event::MouseMoved && mMouseButtonDown)
 			{
-				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+				sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 				sf::Vector2f worldPos(window.mapPixelToCoords(mousePos));
 
 				mTilemap.setTileTexture(worldPos, mPaintColor);
@@ -65,5 +68,19 @@ void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY)
 				}
 			}
 		}
+		update(clock.restart());
+		draw(window);
 	}
+}
+
+void TilemapGenerator::update(sf::Time & deltaTime)
+{
+
+}
+
+void TilemapGenerator::draw(sf::RenderWindow & window)
+{
+	window.clear();
+	window.draw(mTilemap);
+	window.display();
 }

@@ -1,6 +1,4 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Artificial Intelligence Projects.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  TilemapGenerator.cpp
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemapgenerator.cpp(18): warning C4018: '<': signed/unsigned mismatch
   Tilemap.cpp
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(53): warning C4099: 'CompareTileCosts': type name first seen using 'class' now seen using 'struct'
   c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(52): note: see declaration of 'CompareTileCosts'
@@ -13,21 +11,12 @@ c:\users\bear\source\repos\artificial-intelligence-projects\artificial intellige
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(103): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(104): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(105): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(137): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(138): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(139): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(140): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(193): warning C4018: '<=': signed/unsigned mismatch
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(212): warning C4018: '<': signed/unsigned mismatch
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(240): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Main.cpp
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(53): warning C4099: 'CompareTileCosts': type name first seen using 'class' now seen using 'struct'
-  c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(52): note: see declaration of 'CompareTileCosts'
-  EvolutionProgram.cpp
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(53): warning C4099: 'CompareTileCosts': type name first seen using 'class' now seen using 'struct'
-  c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(52): note: see declaration of 'CompareTileCosts'
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  TilemapProgram.cpp
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(141): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(194): warning C4018: '<=': signed/unsigned mismatch
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(213): warning C4018: '<': signed/unsigned mismatch
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tilemap.cpp(241): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.exe
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)
