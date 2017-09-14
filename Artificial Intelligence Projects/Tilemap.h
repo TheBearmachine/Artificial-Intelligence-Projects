@@ -20,10 +20,13 @@ public:
 	void update(sf::Time &deltaTime);
 
 	bool load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
+	void setTileTexture(sf::Vector2f worldPos, int textureIndex);
 
 	void calculateAvailableMoves(const sf::Vector2f &startPos, int travelLength, int* tileCosts);
 	void clearMoves();
 	void calculatePath(const sf::Vector2f &point);
+
+	sf::Vector2u getMapSizeInTiles() const;
 
 	std::vector<sf::Vector2f> getCurrentPath(const sf::Vector2f &mousePos);
 

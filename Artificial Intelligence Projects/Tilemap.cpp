@@ -125,6 +125,23 @@ bool Tilemap::load(const std::string & tileset, sf::Vector2u tileSize, const int
 	return true;
 }
 
+void Tilemap::setTileTexture(sf::Vector2f worldPos, int textureIndex)
+{
+	if (textureIndex < 0 || textureIndex <= Tile::TILE_TYPES_NR) return;
+	auto index = getIndexFromVector(worldPos);
+	sf::Vertex* quad = &mVertices[index * 4];
+
+	int tu = textureIndex % (mTileset.getSize().x / mTileWidth);
+	int tv = textureIndex / (mTileset.getSize().x / mTileWidth);
+
+	quad[0].texCoords = sf::Vector2f(tu * mTileWidth, tv * mTileHeight);
+	quad[1].texCoords = sf::Vector2f((tu + 1) * mTileWidth, tv * mTileHeight);
+	quad[2].texCoords = sf::Vector2f((tu + 1) * mTileWidth, (tv + 1) * mTileHeight);
+	quad[3].texCoords = sf::Vector2f(tu * mTileWidth, (tv + 1) * mTileHeight);
+
+	mTiles[index]->setTileType((Tile::TileTypes)textureIndex);
+}
+
 bool containsElement(std::priority_queue<Tile*, std::vector<Tile*>, CompareTileCosts> queue, Tile* element)
 {
 	while (!queue.empty())
@@ -285,6 +302,11 @@ void Tilemap::calculatePath(const sf::Vector2f &point)
 			}
 		}
 	}
+}
+
+sf::Vector2u Tilemap::getMapSizeInTiles() const
+{
+	return sf::Vector2u(mNrTilesX, mNrTilesY);
 }
 
 std::vector<sf::Vector2f> Tilemap::getCurrentPath(const sf::Vector2f &mousePos)

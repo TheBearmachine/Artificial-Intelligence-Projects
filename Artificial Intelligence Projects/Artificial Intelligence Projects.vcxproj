@@ -121,6 +121,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Tilemap.cpp" />
+    <ClCompile Include="TilemapGenerator.cpp" />
     <ClCompile Include="TilemapProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +129,7 @@
     <ClInclude Include="EvolutionProgram.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Tilemap.h" />
+    <ClInclude Include="TilemapGenerator.h" />
     <ClInclude Include="TilemapProgram.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

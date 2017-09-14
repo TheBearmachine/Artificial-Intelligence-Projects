@@ -1,5 +1,5 @@
 #include "EvolutionProgram.h"
-#include <SFML/Graphics/RenderWindow.hpp>
+//#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -19,7 +19,7 @@ EvolutionProgram::~EvolutionProgram()
 {
 }
 
-void setupEntity(Entity& entity, const char* textureFile, const sf::Vector2i &tilePos, int* movementCosts, int travelLength)
+void setupEntityAlso(Entity& entity, const char* textureFile, const sf::Vector2i &tilePos, int* movementCosts, int travelLength)
 {
 	entity.setTexture(textureFile);
 	entity.setPosition((float)tilePos.x * 64.f, (float)tilePos.y * 64.f);
@@ -31,22 +31,24 @@ void EvolutionProgram::run()
 {
 	sf::RenderWindow window(sf::VideoMode(640, 640), "Pathfinding AI");
 	sf::Clock clock;
-	int LEVEL[] = { 3,3,3,3,3,3,3,3,3,3,
-					3,2,2,2,2,2,2,2,2,3,
-					3,2,1,1,1,1,4,4,2,3,
-					3,2,1,1,0,0,0,4,2,3,
-					3,2,4,4,4,4,4,4,2,3,
-					3,2,2,5,2,2,5,2,2,3,
-					3,2,2,5,2,2,5,2,2,3,
-					3,2,1,4,4,4,4,0,2,3,
-					3,2,1,4,0,0,0,0,2,3,
+	int LEVEL[] = { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+					3,2,2,2,2,2,2,2,2,3,2,2,2,2,2,
+					3,2,1,1,1,1,4,4,2,4,4,4,4,4,3,
+					3,2,1,1,0,0,0,4,2,4,4,4,4,2,3,
+					3,2,4,4,4,4,4,4,2,4,4,4,2,2,3,
+					3,2,2,5,2,2,5,2,2,4,2,2,4,2,3,
+					3,2,2,5,2,2,5,2,2,4,
+					3,2,1,4,4,4,4,0,2,4,
+					3,2,1,4,0,0,0,0,2,0,
 					3,3,3,3,3,3,3,3,3,3 };
 
-	mTilemap.load(TILEMAP_TEXTUREFILE, sf::Vector2u(64, 64), LEVEL, 10, 10);
+	mTilemap.load(TILEMAP_TEXTUREFILE, sf::Vector2u(64, 64), LEVEL, 15, 15);
 
 	// Setup wagon attributes
-	int wagonCosts[] = { 3, 6, 5, 1000, 2, 1 };
-	int travelLength = 8;
+	int humanCosts[] = { 3, 6, 5, 1000, 2, 1 };
+	int humanTravelLength = 8;
+	sf::Vector2i entityPos(5, 5);
+	setupEntityAlso(mEntity, HUMAN_TEXTUREFILE, entityPos, humanCosts, humanTravelLength);
 
 	while (window.isOpen())
 	{
@@ -58,7 +60,7 @@ void EvolutionProgram::run()
 
 			if (!mEntityInTransit && event.type == sf::Event::MouseButtonPressed)
 			{
-				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+				/*sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 				sf::Vector2i relativeMousePos(window.mapPixelToCoords(mousePos));
 
 				auto path = mTilemap.getCurrentPath(sf::Vector2f(relativeMousePos));
@@ -67,7 +69,7 @@ void EvolutionProgram::run()
 					mEntity.setMovementPath(path, true);
 					mEntity.setEntityListener(this);
 					mEntityInTransit = true;
-				}
+				}*/
 			}
 			if (!mEntityInTransit && event.type == sf::Event::KeyPressed)
 			{

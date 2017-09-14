@@ -1,9 +1,10 @@
 #include "TilemapProgram.h"
+#include "TilemapGenerator.h"
 
 int main()
 {
-	TilemapProgram prog;
-	prog.run();
+	TilemapGenerator prog;
+	prog.run(20, 15);
 
 	return 0;
 }
