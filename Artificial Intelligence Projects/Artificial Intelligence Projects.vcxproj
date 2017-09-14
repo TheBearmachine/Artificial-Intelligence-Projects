@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EvolutionProgram.cpp" />
+    <ClCompile Include="Genetics.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Tilemap.cpp" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EvolutionProgram.h" />
+    <ClInclude Include="Genetics.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="TilemapGenerator.h" />

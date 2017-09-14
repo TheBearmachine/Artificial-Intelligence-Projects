@@ -3,6 +3,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <random>
 
 static const char* TILEMAP_TEXTUREFILE = "FancyTiles.png";
 static const char* WAGON_TEXTUREFILE = "Wagon.png";
@@ -13,10 +14,12 @@ static const char* GOAT_TEXTUREFILE = "Goat.png";
 EvolutionProgram::EvolutionProgram() :
 	mEntityInTransit(false)
 {
+
 }
 
 EvolutionProgram::~EvolutionProgram()
 {
+
 }
 
 void setupEntityAlso(Entity& entity, const char* textureFile, const sf::Vector2i &tilePos, int* movementCosts, int travelLength)
@@ -29,6 +32,8 @@ void setupEntityAlso(Entity& entity, const char* textureFile, const sf::Vector2i
 
 void EvolutionProgram::run()
 {
+	std::srand(time(NULL));
+
 	sf::RenderWindow window(sf::VideoMode(640, 640), "Pathfinding AI");
 	sf::Clock clock;
 	int LEVEL[] = { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,

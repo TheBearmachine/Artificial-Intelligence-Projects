@@ -45,3 +45,10 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.filters
+Artificial Intelligence Projects/Artificial Intelligence Projects.vcxproj.filters
+*.filters
+*.tlog
+*.log
+*.obj
+*.exe
