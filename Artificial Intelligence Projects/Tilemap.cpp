@@ -310,6 +310,11 @@ sf::Vector2u Tilemap::getMapSizeInTiles() const
 	return sf::Vector2u(mNrTilesX, mNrTilesY);
 }
 
+int Tilemap::getTileTypeFromIndex(const int & index) const
+{
+	return (int)mTiles[index]->getTileType();
+}
+
 std::vector<sf::Vector2f> Tilemap::getCurrentPath(const sf::Vector2f &mousePos)
 {
 	unsigned int index = getIndexFromVector(mousePos);

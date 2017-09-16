@@ -18,7 +18,15 @@ public:
 	Genetics();
 	~Genetics();
 
-	Population evolve(const Population &currentPopulation);
+	void initalializeFirstPopulation(size_t populationSize, float maxValueX, float maxValueY);
+	void evolveNewGeneration();
+	void applyFitness(float fitness, size_t index);
+	Population getCurrentPopulation() const;
+
+	void setTournamentSize(size_t size);
+	void setRadialMutationSize(float radius);
+
+	Genome getMostFitGenome() const;
 
 private:
 	Genome tournamentSelection(const Population &population);
@@ -27,5 +35,6 @@ private:
 
 	Population mCurrentPopulation;
 	int mTournamentSize;
-	float radialMutationSize;
+	float mRadialMutationSize;
+	float mBoundMaxX, mBoundMinX, mBoundMinY, mBoundMaxY;
 };

@@ -2,7 +2,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 static const char* DEFAULT_TEXTURE = "DefaultImage.png";
-static const float SPEED_FACTOR = 40.0f;
 
 Entity::Entity() :
 	mCosts{ 1, 1, 1, 1, 1, 1 },
@@ -78,7 +77,7 @@ void Entity::update(sf::Time & deltaTime)
 	if (!mWaypoints.empty() && mTraveling)
 	{
 		bool reachedGoal;
-		auto newPos = lerp(getPosition(), mWaypoints.back(), mInstantTravel ? 10000.f : deltaTime.asSeconds() * SPEED_FACTOR, reachedGoal);
+		auto newPos = lerp(getPosition(), mWaypoints.back(), mInstantTravel ? 10000.f : deltaTime.asSeconds() * mTravelSpeed, reachedGoal);
 		setPosition(newPos);
 		if (reachedGoal)
 		{
@@ -135,4 +134,14 @@ void Entity::setTravelLength(int length)
 int Entity::getTravelLength() const
 {
 	return mTravelLength;
+}
+
+void Entity::setTravelSpeed(float speed)
+{
+	mTravelSpeed = speed;
+}
+
+float Entity::getTravelSpeed() const
+{
+	return mTravelSpeed;
 }

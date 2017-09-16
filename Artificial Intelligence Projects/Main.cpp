@@ -1,10 +1,11 @@
 #include "TilemapProgram.h"
 #include "TilemapGenerator.h"
+#include "EvolutionProgram.h"
 
 int main()
 {
-	TilemapGenerator prog;
-	prog.run(20, 15);
+	EvolutionProgram prog;
+	prog.run();
 
 	return 0;
 }

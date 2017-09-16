@@ -8,7 +8,7 @@ public:
 	TilemapGenerator();
 	~TilemapGenerator();
 
-	void run(size_t nrTilesX, size_t nrTilesY);
+	void run(size_t nrTilesX, size_t nrTilesY, size_t defaultTile = 0);
 
 private:
 	void update(sf::Time &deltaTime);

@@ -1,7 +1,10 @@
 #include "TilemapGenerator.h"
+#include <fstream>
 #include <SFML/Window/Event.hpp>
 
 static const char* TILEMAP_TEXTUREFILE = "FancyTiles.png";
+static const char* WRITE_FILE = "TileData.txt";
+static const char* WRITE_FILE_RAW = "TileDataRaw.txt";
 
 TilemapGenerator::TilemapGenerator() :
 	mPaintColor(0), mMouseButtonDown(false)
@@ -12,18 +15,77 @@ TilemapGenerator::~TilemapGenerator()
 {
 }
 
-void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY)
+void intToCharArray(unsigned int inUnsignedInt, char* outCharArray)
+{
+	unsigned int val = inUnsignedInt;
+	outCharArray[0] = (unsigned char)val;
+	val >>= 8;
+	outCharArray[1] = (unsigned char)val;
+	val >>= 8;
+	outCharArray[2] = (unsigned char)val;
+	val >>= 8;
+	outCharArray[3] = (unsigned char)val;
+}
+
+void writeToFile(const sf::Vector2u &mapSize, const unsigned int *tileIndices)
+{
+	std::ofstream ofs(WRITE_FILE);
+	if (!ofs.is_open()) return; // Error creating and/or opening file.
+	std::string x = std::to_string(mapSize.x);
+	std::string y = std::to_string(mapSize.y);
+	size_t size = mapSize.x * mapSize.y;
+	std::string toWrite = "X: " + x + ", Y: " + y + "\n";
+
+	ofs.write(toWrite.c_str(), toWrite.size());
+
+	toWrite = "{";
+	for (size_t i = 0; i < size; i++)
+	{
+		if (i % mapSize.x == 0) toWrite += "\n";
+		toWrite += std::to_string(tileIndices[i]);
+		if (i != size - 1) toWrite += ",";
+	}
+	toWrite += "}";
+	ofs.write(toWrite.c_str(), toWrite.size());
+}
+
+void writeToFileRawData(const sf::Vector2u &mapSize, const unsigned int *tileIndices)
+{
+	std::ofstream ofs(WRITE_FILE_RAW, std::ios::binary);
+	if (!ofs.is_open()) return; // Error creating and/or opening file.
+	// Size is 32 bytes
+	std::streampos size = 4;
+	char* memblock = new char[size];
+
+	// Start writing map size
+	intToCharArray(mapSize.x, memblock);
+	ofs.write(memblock, size);
+	intToCharArray(mapSize.y, memblock);
+	ofs.write(memblock, size);
+
+	// Then write each tiletyp
+	size_t top = mapSize.x * mapSize.y;
+	for (size_t i = 0; i < top; i++)
+	{
+		intToCharArray(tileIndices[i], memblock);
+		ofs.write(memblock, size);
+	}
+	ofs.close();
+	delete[size] memblock;
+}
+
+void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY, size_t defaultTile)
 {
 	mTileIndexArray = new int[nrTilesX * nrTilesY];
 	for (int i = 0; i < nrTilesX * nrTilesY; i++)
 	{
-		mTileIndexArray[i] = 0;
+		mTileIndexArray[i] = defaultTile;
 	}
 
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pathfinding AI");
 	sf::Clock clock;
 
-	mTilemap.load(TILEMAP_TEXTUREFILE, sf::Vector2u(64, 64), mTileIndexArray, 15, 15);
+	mTilemap.load(TILEMAP_TEXTUREFILE, sf::Vector2u(64, 64), mTileIndexArray, nrTilesX, nrTilesY);
 	delete[nrTilesX * nrTilesY] mTileIndexArray;
 
 	while (window.isOpen())
@@ -65,6 +127,16 @@ void TilemapGenerator::run(size_t nrTilesX, size_t nrTilesY)
 				else if (event.key.code == sf::Keyboard::S)
 				{
 					// Save to file
+					sf::Vector2u mapSize = mTilemap.getMapSizeInTiles();
+					size_t size = mapSize.x * mapSize.y;
+					unsigned int *indices = new unsigned int[size];
+					for (size_t i = 0; i < size; i++)
+					{
+						indices[i] = mTilemap.getTileTypeFromIndex(i);
+					}
+					writeToFile(mapSize, indices);
+					writeToFileRawData(mapSize, indices);
+					delete[size] indices;
 				}
 			}
 		}

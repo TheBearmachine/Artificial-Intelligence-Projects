@@ -27,11 +27,12 @@ public:
 	void calculatePath(const sf::Vector2f &point);
 
 	sf::Vector2u getMapSizeInTiles() const;
+	int getTileTypeFromIndex(const int &index) const;
 
 	std::vector<sf::Vector2f> getCurrentPath(const sf::Vector2f &mousePos);
+	unsigned int getIndexFromVector(const sf::Vector2f &pos);
 
 private:
-	unsigned int getIndexFromVector(const sf::Vector2f &pos);
 
 	sf::VertexArray mVertices;
 	sf::Texture mTileset;

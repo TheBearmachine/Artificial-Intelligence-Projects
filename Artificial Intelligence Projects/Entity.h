@@ -33,6 +33,9 @@ public:
 	void setTravelLength(int length);
 	int getTravelLength() const;
 
+	void setTravelSpeed(float speed);
+	float getTravelSpeed() const;
+
 private:
 	sf::Sprite mSprite;
 	sf::Texture mTexture;
@@ -40,5 +43,6 @@ private:
 	int mCosts[Tile::TILE_TYPES_NR];
 	int mTravelLength;
 	std::vector<sf::Vector2f> mWaypoints;
+	float mTravelSpeed;
 	bool mTraveling, mInstantTravel;
 };
