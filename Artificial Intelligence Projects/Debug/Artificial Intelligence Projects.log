@@ -2,7 +2,7 @@
   EvolutionProgram.cpp
 c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(53): warning C4099: 'CompareTileCosts': type name first seen using 'class' now seen using 'struct'
   c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(52): note: see declaration of 'CompareTileCosts'
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(51): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(186): warning C4018: '<': signed/unsigned mismatch
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(53): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(188): warning C4018: '<': signed/unsigned mismatch
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.exe
   Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)

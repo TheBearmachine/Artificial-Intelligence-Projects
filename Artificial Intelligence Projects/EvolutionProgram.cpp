@@ -18,11 +18,13 @@ static const sf::Vector2f startPos(64, 64);
 static const sf::Vector2f halfTile(32, 32);
 
 EvolutionProgram::EvolutionProgram() :
-	mPopulationSize(60), mEpok(0)
+	mPopulationSize(60), mEpoch(0)
 {
 	mFont.loadFromFile(DEFAULT_FONTFILE);
 	mInfoText.setFont(mFont);
 	mInfoText.setFillColor(sf::Color::Green);
+	mInfoText.setOutlineColor(sf::Color::Black);
+	mInfoText.setOutlineThickness(1.5f);
 	mInfoText.setPosition(64, 64);
 
 	mPathRepresentation.setPrimitiveType(sf::LineStrip);
@@ -77,7 +79,7 @@ void EvolutionProgram::run()
 	setupEntityAlso(mEntity, HUMAN_TEXTUREFILE, entityPos, humanCosts, humanTravelLength);
 	mEntity.setTravelSpeed(5.0f);
 	mEntity.setEntityListener(this);
-	mInfoText.setString("Current epok: " + std::to_string(mEpok));
+	mInfoText.setString("Current epoch: " + std::to_string(mEpoch));
 
 	mCurrentEvaluatingGenome = 0;
 	mGenetics.initalializeFirstPopulation(60, 64 * 19, 64 * 14);
@@ -116,7 +118,7 @@ void EvolutionProgram::run()
 				if (mWait && event.key.code == sf::Keyboard::Space)
 				{
 					mWait = false;
-					mInfoText.setString("Current epok: " + std::to_string(mEpok));
+					mInfoText.setString("Current epoch: " + std::to_string(mEpoch));
 					startGenomeEvaluation(mCurrentEvaluatingGenome);
 				}
 			}
@@ -165,14 +167,14 @@ void EvolutionProgram::destinationReached()
 		mWait = true;
 		//mGenetics.se
 		Genome genome = mGenetics.getMostFitGenome();
-		mInfoText.setString("Epok " + std::to_string(mEpok) + " evaluated, Max fitness was " + std::to_string(genome.fitness) + "\nPress Space to continue");
+		mInfoText.setString("Epoch " + std::to_string(mEpoch) + " evaluated, Max fitness was " + std::to_string(genome.fitness) + "\nPress Space to continue");
 
 		for (int i = 1; i < 5; i++)
 		{
 			mPathRepresentation[i].position = sf::Vector2f(genome.positions[(i - 1) * 2], genome.positions[(i - 1) * 2 + 1]) + halfTile;
 		}
 		mGenetics.evolveNewGeneration();
-		mEpok++;
+		mEpoch++;
 	}
 }
 

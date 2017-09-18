@@ -31,5 +31,5 @@ private:
 	sf::VertexArray mPathRepresentation;
 	bool mWait;
 
-	size_t mEpok;
+	size_t mEpoch;
 };
