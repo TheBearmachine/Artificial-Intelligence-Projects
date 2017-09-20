@@ -5,5 +5,6 @@ class BiasNeuron : public Neuron
 {
 public:
 	virtual float evaluate() override;
+	float evaluateDerivative() override;
 
 };
