@@ -110,12 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArtificialNeuralNetwork.cpp" />
     <ClCompile Include="BiasNeuron.cpp" />
     <ClCompile Include="IdentityNeuron.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SigmoidNeuron.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArtificialNeuralNetwork.h" />
     <ClInclude Include="BiasNeuron.h" />
     <ClInclude Include="IdentityNeuron.h" />
     <ClInclude Include="Neuron.h" />

@@ -1,8 +1,3 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Artificial Intelligence Projects.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  EvolutionProgram.cpp
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(53): warning C4099: 'CompareTileCosts': type name first seen using 'class' now seen using 'struct'
-  c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\tile.h(52): note: see declaration of 'CompareTileCosts'
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(53): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\bear\source\repos\artificial-intelligence-projects\artificial intelligence projects\evolutionprogram.cpp(188): warning C4018: '<': signed/unsigned mismatch
-  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.exe
-  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Source\Repos\Artificial-Intelligence-Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)
+  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Documents\Visual Studio 2015\Projects\Artificial Intelligence Projects\Debug\Artificial Intelligence Program1.exe
+  Artificial Intelligence Projects.vcxproj -> C:\Users\Bear\Documents\Visual Studio 2015\Projects\Artificial Intelligence Projects\Debug\Artificial Intelligence Program1.pdb (Partial PDB)
