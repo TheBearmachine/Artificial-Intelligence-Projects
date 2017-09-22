@@ -21,11 +21,18 @@ public:
 	ArtificialNeuralNetwork(size_t inputSensors, size_t outputSensors);
 	~ArtificialNeuralNetwork();
 
+	void feedForward();
+
 	Neuron* getInputNeuron(size_t index) const;
+	Neuron* getOutputNeuron(size_t index) const;
 	void addHiddenLayer(size_t size);
 
+	void setWeight(float value, size_t layerIndex, size_t fromNueronIndex, size_t toNeuronIndex);
+	float getWeight(size_t layerIndex, size_t fromNueronIndex, size_t toNeuronIndex) const;
+	void randomizeWeights(float limit);
+
 private:
-	void clearLayer();
+	void clearLayers();
 	void updateWeights();
 
 	std::vector<Layer> mLayers;
