@@ -11,4 +11,6 @@ public:
 
 private:
 	ArtificialNeuralNetwork mANN;
+
+	bool mRunning;
 };

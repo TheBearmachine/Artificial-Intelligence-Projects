@@ -3,7 +3,7 @@
 
 float SigmoidNeuron::evaluate()
 {
-	return 1.0f/( 1.0f + std::exp(mInputValue));
+	return 1.0f/( 1.0f + std::exp(-mInputValue));
 }
 
 float SigmoidNeuron::evaluateDerivative()

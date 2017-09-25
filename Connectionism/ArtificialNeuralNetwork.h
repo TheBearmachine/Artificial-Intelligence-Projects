@@ -22,6 +22,8 @@ public:
 	~ArtificialNeuralNetwork();
 
 	void feedForward();
+	// correctionArr has to be the same size as nr of output neurons
+	void backPropagation(float learningSpeed, const float* correctionArr);
 
 	Neuron* getInputNeuron(size_t index) const;
 	Neuron* getOutputNeuron(size_t index) const;
@@ -38,5 +40,4 @@ private:
 	std::vector<Layer> mLayers;
 	std::vector<std::vector<float>> mWeights;
 
-	bool mHasWeights;
 };
