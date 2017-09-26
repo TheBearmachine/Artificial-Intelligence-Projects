@@ -100,19 +100,6 @@ void EvolutionProgram::run()
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				/*sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
-				sf::Vector2i relativeMousePos(window.mapPixelToCoords(mousePos));
-
-				auto path = mTilemap.getCurrentPath(sf::Vector2f(relativeMousePos));
-				if (!path.empty())
-				{
-					mEntity.setMovementPath(path, true);
-					mEntity.setEntityListener(this);
-					mEntityInTransit = true;
-				}*/
-			}
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (mWait && event.key.code == sf::Keyboard::Space)
@@ -130,7 +117,7 @@ void EvolutionProgram::run()
 			update(elapsed);
 			// Update fitness value of the entity
 			float cost = (float)mEntity.getMovementCost((Tile::TileTypes)mTilemap.getTileTypeFromIndex(mTilemap.getIndexFromVector(mEntity.getPosition())));
-			mFitnessEvaluation -=cost;
+			mFitnessEvaluation -= cost;
 		}
 
 		draw(window);

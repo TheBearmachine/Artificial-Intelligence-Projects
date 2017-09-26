@@ -38,6 +38,13 @@ static const float INPUT_SHAPE_CROSS_BROKEN[INPUT_SENSOR_NR]{
 	1,0,0,1
 };
 
+static const float INPUT_SHAPE_STUPID_LINE[INPUT_SENSOR_NR]{
+	0,0,1,1,
+	0,0,1,1,
+	0,1,1,0,
+	1,1,0,0
+};
+
 static const size_t OUTPUT_SENSOR_NR = 2;
 static const float EXPECTED_OUTPUT_CIRCLE[OUTPUT_SENSOR_NR]
 { 0.0, 1.0 };
@@ -113,7 +120,7 @@ void NeuralNetworkProgram::run()
 	size_t input = 0;
 	while (mRunning)
 	{
-		std::cout << "\nInput: 0 for a circle shape, 1 for a cross shape\n2 for a broken circle, 3 for a broken cross\n";
+		std::cout << "\nInput: 0 for a circle shape, 1 for a cross shape\n2 for a broken circle, 3 for a broken cross, 4 for a line thing\n";
 		std::cin >> input;
 		switch (input)
 		{
@@ -142,6 +149,13 @@ void NeuralNetworkProgram::run()
 			for (size_t i = 0; i < INPUT_SENSOR_NR; i++)
 			{
 				mANN.getInputNeuron(i)->setInputValue(INPUT_SHAPE_CROSS_BROKEN[i]);
+			}
+			break;
+
+		case 4:
+			for (size_t i = 0; i < INPUT_SENSOR_NR; i++)
+			{
+				mANN.getInputNeuron(i)->setInputValue(INPUT_SHAPE_STUPID_LINE[i]);
 			}
 			break;
 
