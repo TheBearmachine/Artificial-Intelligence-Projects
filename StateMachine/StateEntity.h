@@ -2,7 +2,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 class StateEntity : public sf::Transformable, public sf::Drawable
 {
@@ -14,5 +14,5 @@ public:
 	virtual void update(const sf::Time &deltaTime) = 0;
 
 protected:
-	sf::Sprite mSprite;
+	sf::CircleShape mSprite;
 };

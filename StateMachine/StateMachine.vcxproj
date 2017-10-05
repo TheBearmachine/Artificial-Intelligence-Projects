@@ -117,12 +117,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="StateEntity.h" />
+    <ClInclude Include="StateEntityNonPlayable.h" />
     <ClInclude Include="StateEntityPlayable.h" />
+    <ClInclude Include="Statemachine.h" />
+    <ClInclude Include="StatemachineIdle.h" />
+    <ClInclude Include="StatemachineProgram.h" />
+    <ClInclude Include="VectorRotation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StateEntity.cpp" />
+    <ClCompile Include="StateEntityNonPlayable.cpp" />
     <ClCompile Include="StateEntityPlayable.cpp" />
+    <ClCompile Include="Statemachine.cpp" />
+    <ClCompile Include="StatemachineIdle.cpp" />
+    <ClCompile Include="StatemachineProgram.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
