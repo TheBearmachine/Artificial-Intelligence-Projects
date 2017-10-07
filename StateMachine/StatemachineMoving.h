@@ -13,8 +13,8 @@ public:
 	virtual void startIdle(const float &idleTime) override;
 	virtual void startChasing() override;
 
+	void setTargetPosition(const sf::Vector2f &tarPos);
 
 private:
 	sf::Vector2f mTargetPosition;
-
 };

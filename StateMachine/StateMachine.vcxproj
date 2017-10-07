@@ -120,9 +120,11 @@
     <ClInclude Include="StateEntityNonPlayable.h" />
     <ClInclude Include="StateEntityPlayable.h" />
     <ClInclude Include="Statemachine.h" />
+    <ClInclude Include="StatemachineChasing.h" />
     <ClInclude Include="StatemachineIdle.h" />
     <ClInclude Include="StatemachineMoving.h" />
     <ClInclude Include="StatemachineProgram.h" />
+    <ClInclude Include="VectorFunctions.h" />
     <ClInclude Include="VectorRotation.h" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +133,7 @@
     <ClCompile Include="StateEntityNonPlayable.cpp" />
     <ClCompile Include="StateEntityPlayable.cpp" />
     <ClCompile Include="Statemachine.cpp" />
+    <ClCompile Include="StatemachineChasing.cpp" />
     <ClCompile Include="StatemachineIdle.cpp" />
     <ClCompile Include="StatemachineMoving.cpp" />
     <ClCompile Include="StatemachineProgram.cpp" />

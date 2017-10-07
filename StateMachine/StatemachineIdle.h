@@ -13,6 +13,9 @@ public:
 	virtual void startMovement(const sf::Vector2f &position) override;
 	virtual void startChasing() override;
 
+	void setIdleTimer(const float &timer);
+
 private:
 	float mIdleTimer;
+	sf::Vector2f mInitialLookDir;
 };

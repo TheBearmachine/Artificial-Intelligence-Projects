@@ -1,5 +1,6 @@
 #pragma once
 #include "StateEntityNonPlayable.h"
+#include "StateEntityPlayable.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class StatemachineProgram
@@ -16,5 +17,6 @@ private:
 
 	static const size_t NR_ENTITIES = 4;
 	StateEntityNonPlayable mTestEntities[NR_ENTITIES];
+	StateEntityPlayable mPlayerEntity;
 	sf::RenderWindow mWindow;
 };
