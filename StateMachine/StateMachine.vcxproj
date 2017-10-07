@@ -121,6 +121,7 @@
     <ClInclude Include="StateEntityPlayable.h" />
     <ClInclude Include="Statemachine.h" />
     <ClInclude Include="StatemachineIdle.h" />
+    <ClInclude Include="StatemachineMoving.h" />
     <ClInclude Include="StatemachineProgram.h" />
     <ClInclude Include="VectorRotation.h" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <ClCompile Include="StateEntityPlayable.cpp" />
     <ClCompile Include="Statemachine.cpp" />
     <ClCompile Include="StatemachineIdle.cpp" />
+    <ClCompile Include="StatemachineMoving.cpp" />
     <ClCompile Include="StatemachineProgram.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

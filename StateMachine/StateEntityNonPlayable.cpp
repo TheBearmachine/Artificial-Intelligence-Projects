@@ -14,6 +14,7 @@ StateEntityNonPlayable::StateEntityNonPlayable() :
 	mSearchCone(sf::PrimitiveType::TriangleFan, 6),
 	time(0.0f),
 	mStatemachineIdle(this),
+	mStatemachineMoving(this),
 	mCurrentState(&mStatemachineIdle)
 {
 	mSprite.setRadius(RADIUS);

@@ -2,6 +2,7 @@
 #include "StateEntity.h"
 #include <SFML/Graphics/VertexArray.hpp>
 #include "StatemachineIdle.h"
+#include "StatemachineMoving.h"
 #include <queue>
 #include <vector>
 
@@ -22,6 +23,7 @@ private:
 
 	Statemachine* mCurrentState;
 	StatemachineIdle mStatemachineIdle;
+	StatemachineMoving mStatemachineMoving;
 
 	sf::VertexArray mSearchCone;
 	float time;
